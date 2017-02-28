@@ -13,24 +13,39 @@ def open_and_read_file(file_path):
     return text
 
 
-# def make_chains(text_string):
-#     """Takes input text as string; returns _dictionary_ of markov chains.
+def make_chains(text_string):
+    """Takes input text as string; returns _dictionary_ of markov chains.
 
-#     A chain will be a key that consists of a tuple of (word1, word2)
-#     and the value would be a list of the word(s) that follow those two
-#     words in the input text.
+    A chain will be a key that consists of a tuple of (word1, word2)
+    and the value would be a list of the word(s) that follow those two
+    words in the input text.
 
-#     For example:
+    For example:
 
-#         >>> make_chains("hi there mary hi there juanita")
-#         {('hi', 'there'): ['mary', 'juanita'], ('there', 'mary'): ['hi'], ('mary', 'hi': ['there']}
-#     """
+        >>> make_chains("hi there mary hi there juanita")
+        {('hi', 'there'): ['mary', 'juanita'], ('there', 'mary'): ['hi'], ('mary', 'hi': ['there']}
+    """
 
-#     chains = {}
+    chains = {}
+    words = text.split()
 
-#     # your code goes here
+    start_index = 0
+    end_index = 1
+    value_index = 2
 
-#     return chains
+    while value_index < len(words):
+        word_pair = (words[start_index], words[end_index])
+        value = words[value_index]
+        chains[word_pair] = chains.get(word_pair, []) + [value]
+        start_index += 1
+        end_index += 1
+        value_index += 1
+
+    return chains
+
+
+text = open_and_read_file("green-eggs.txt")
+print make_chains(text)
 
 
 # def make_text(chains):
