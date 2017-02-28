@@ -44,18 +44,26 @@ def make_chains(text_string):
     return chains
 
 
-text = open_and_read_file("green-eggs.txt")
-print make_chains(text)
+def make_text(chains):
+    """Takes dictionary of markov chains; returns random text."""
+
+    text = ""
+    word_pair = choice(chains)
+    print word_pair
 
 
-# def make_text(chains):
-#     """Takes dictionary of markov chains; returns random text."""
-
-#     text = ""
-
-#     # your code goes here
+#     while word_pair in chains:
+#         text += word_pair
+#         next_word = choice(chains[word_pair])
+#         text += next_word
+#         word_pair = (word_pair[1], next_word)
 
 #     return text
+
+
+text = open_and_read_file("green-eggs.txt")
+chains = make_chains(text)
+print make_text(chains)
 
 
 # input_path = "green-eggs.txt"
