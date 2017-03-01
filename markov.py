@@ -27,7 +27,7 @@ def make_chains(text_string):
     """
 
     chains = {}
-    words = text.split()
+    words = text_string.split()
 
     start_index = 0
     end_index = 1
@@ -41,6 +41,7 @@ def make_chains(text_string):
         end_index += 1
         value_index += 1
 
+    chains[(words[start_index], words[end_index])] = None
     return chains
 
 
@@ -50,7 +51,7 @@ def make_text(chains):
     text = ""
     word_pair = choice(chains.keys())
 
-    while word_pair in chains:
+    while chains[word_pair] != None:
         text += word_pair[0] + " "
         next_word = choice(chains[word_pair])
         word_pair = (word_pair[1], next_word)
@@ -60,20 +61,15 @@ def make_text(chains):
     return text
 
 
-text = open_and_read_file("green-eggs.txt")
-chains = make_chains(text)
-print make_text(chains)
+input_path = "gettysburg.txt"
 
+# Open the file and turn it into one long string
+input_text = open_and_read_file(input_path)
 
-# input_path = "green-eggs.txt"
+# Get a Markov chain
+chains = make_chains(input_text)
 
-# # Open the file and turn it into one long string
-# input_text = open_and_read_file(input_path)
+# Produce random text
+random_text = make_text(chains)
 
-# # Get a Markov chain
-# chains = make_chains(input_text)
-
-# # Produce random text
-# random_text = make_text(chains)
-
-# print random_text
+print random_text
