@@ -2,7 +2,7 @@ from random import choice
 import sys
 
 
-def open_and_read_file(file_path):
+def open_and_read_file(file_path, file_path2):
     """Takes file path as string; returns text as string.
 
     Takes a string that is a file path, opens the file, and turns
@@ -10,6 +10,7 @@ def open_and_read_file(file_path):
     """
 
     text = open(file_path).read()
+    text += open(file_path2).read()
 
     return text
 
@@ -42,7 +43,8 @@ def make_chains(text_string):
         end_index += 1
         value_index += 1
 
-    chains[(words[start_index], words[end_index])] = None
+    chains[(words[start_index], words[end_index])] = [""]
+
     return chains
 
 
@@ -50,22 +52,34 @@ def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
     text = ""
-    word_pair = choice(chains.keys())
+    while True:
+        word_pair = choice(chains.keys())
+        if word_pair[0][0].isupper() is True:
+            break
 
-    while chains[word_pair] != None:
+    end_punctuation = [".", "!", "?"]
+    while True:
+        end_word_pair = choice(chains.keys())
+        if end_word_pair[1][-1] in end_punctuation:
+            break
+
+    while word_pair != end_word_pair:
+        if word_pair[1] == "":
+            break
+
         text += word_pair[0] + " "
         next_word = choice(chains[word_pair])
         word_pair = (word_pair[1], next_word)
-
+    
     text += word_pair[0] + " " + word_pair[1]
-
     return text
 
 
 input_path = sys.argv[1]
+input_path_2 = sys.argv[2]
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file(input_path)
+input_text = open_and_read_file(input_path, input_path_2)
 
 # Get a Markov chain
 chains = make_chains(input_text)
